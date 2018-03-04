@@ -1,0 +1,24 @@
+
+.white-keys .white-key {
+  background-image: url('assets/white-sprite.png');
+  background-repeat: no-repeat;
+  background-size: 300% 100%;
+}
+
+.black-keys .black-key {
+  background-image: url('assets/black-sprite.png');
+  background-repeat: no-repeat;
+  background-size: 300% 100%;
+}
+
+.white-keys .white-key.key-up, .black-keys .black-key.key-up {
+  background-position: 0% 0%;
+}
+
+.white-keys .white-key.key-down, .black-keys .black-key.key-down {
+  background-position: 50% 0%;
+}
+
+.white-keys .white-key.key-highlighted, .black-keys .black-key.key-highlighted {
+  background-position: 100% 0%;
+}
