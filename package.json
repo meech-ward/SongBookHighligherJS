@@ -13,6 +13,8 @@
     "jquery": "^3.3.1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.1",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9"
   }
