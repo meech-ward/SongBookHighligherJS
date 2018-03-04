@@ -12,7 +12,7 @@ function MockSong() {
   if (this instanceof MockSong === false) {
     return new MockSong();
   }
-  this.notes = [newNote("c", 4), newNote("d", 5)];
+  this.notes = [newNote("c", 4), newNote("d", 5), newNote("e", 6)];
 }
 
 function MockInstrumentInterface() {
@@ -61,6 +61,107 @@ describe("SongBookController", function() {
         };
         songBookController.start();
         expect(note).to.deep.equal(song.notes[0]);
+      });
+    });
+    context("#nextNote", () => {
+      context("when there are more keys to play", function() {
+        it("should un highlight the current key", () => {
+          let note = null;
+          instrumentInterface.unHighlightCallback = function(n) {
+            note = n;
+          };
+          songBookController.start();
+          songBookController.nextNote();
+          expect(note).to.deep.equal(song.notes[0]);
+          songBookController.nextNote();
+          expect(note).to.deep.equal(song.notes[1]);
+        });
+        it("should highlight the next key", () => {
+          let note = null;
+          instrumentInterface.highlightCallback = function(n) {
+            note = n;
+          };
+          songBookController.start();
+          songBookController.nextNote();
+          expect(note).to.deep.equal(song.notes[1]);
+          songBookController.nextNote();
+          expect(note).to.deep.equal(song.notes[2]);
+        });
+      });
+      context("when the current key is the last key", function() {
+        it("should call the complete method on the instrument", () => {
+          let called = false;
+          instrumentInterface.completedCallback = function() {
+            called = true;
+          };
+          songBookController.start();
+          songBookController.nextNote();
+          songBookController.nextNote();
+          songBookController.nextNote();
+          expect(called).to.be.true;
+        });
+      });
+      context("when the song is over or not yet started", function() {
+        it("should throw an error", () => {
+          expect(() => { 
+            songBookController.nextNote(); 
+          }).to.throw(SongBookError);
+          // expect((songBookController.nextNote.bind(songBookController))).to.throw(SongBookError);
+        });
+      });
+    });
+
+    context("#stop", () => {
+      context("when the songBookController is started", function() {
+        it("should call the stop method on the instrument", () => {
+          songBookController.start();
+          let called = false;
+          instrumentInterface.completedCallback = function() {
+            called = true;
+          };
+          songBookController.stop();
+          expect(called).to.be.true;
+        });
+
+        it ("should un highlight the current key", () => {
+          let note = null;
+          instrumentInterface.unHighlightCallback = function(n) {
+            note = n;
+          };
+          songBookController.start();
+          songBookController.stop();
+          expect(note).to.deep.equal(song.notes[0]);
+        });
+      });
+
+      context("when the songBookController is not started", function() {
+        it("should throw an error", () => {
+          expect(() => {
+            songBookController.stop();
+          }).to.throw(SongBookError);
+        });
+      });
+
+      context("when the songBookController has already been stopped", function() {
+        it("should throw an error", () => {
+          songBookController.start();
+          songBookController.stop();
+          expect(() => {
+            songBookController.stop();
+          }).to.throw(SongBookError);
+        });
+      });
+
+      context("when the songBookController has ended", function() {
+        it("should throw an error", () => {
+          songBookController.start();
+          songBookController.nextNote();
+          songBookController.nextNote();
+          songBookController.nextNote();
+          expect(() => {
+            songBookController.stop();
+          }).to.throw(SongBookError);
+        });
       });
     });
   });
