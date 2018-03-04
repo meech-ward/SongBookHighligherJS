@@ -123,9 +123,7 @@ SongBookController.prototype.nextNote = function() {
   this._currentNoteIndex++;
   currentNote = this._currentNote();
   if (currentNote == null) {
-    this._instrumentInterface.completed();
-    this._currentNoteIndex = null;
-    return 
+    return this.stop();
   }
   this._instrumentInterface.highlight(currentNote);
 }
