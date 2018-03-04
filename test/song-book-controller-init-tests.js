@@ -29,12 +29,6 @@ InstrumentInterface.prototype.unHighlight = function() {
 InstrumentInterface.prototype.completed = function() {
 }
 
-/**
- * A valid song has an array of `notes`
- * 
- * A valid instrument interface has `highlight`, `unhighlight`, and `completed` methods
- */
-
 describe("SongBookController", function() {
   context("when initialized without params", () => {
     it("should throw an error", () => {
