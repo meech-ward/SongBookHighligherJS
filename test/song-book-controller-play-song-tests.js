@@ -62,6 +62,25 @@ describe("SongBookController", function() {
         songBookController.start();
         expect(note).to.deep.equal(song.notes[0]);
       });
+
+      context("returns a promise", function() {
+        it("should complete when the song ends", function(done) {
+          songBookController.start()
+            .then(() => {
+              done();
+            });
+          songBookController.stop();
+        });
+        it("should complete when the song is stopped", function(done) {
+          songBookController.start()
+            .then(() => {
+              done();
+            });
+          songBookController.nextNote();
+          songBookController.nextNote();
+          songBookController.nextNote();
+        });
+      });
     });
     context("#nextNote", () => {
       context("when there are more keys to play", function() {

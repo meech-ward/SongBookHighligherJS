@@ -83,6 +83,14 @@ function SongBookController(song, instrumentInterface) {
    * @type {number}
    */
   this._currentNoteIndex = null;
+
+  /**
+   * A promise that get initialized when the song starts and completes with the song stops.
+   * @private
+   * @type {Promise}
+   */
+  this._startPromiseResolve = null;
+  this._startPromiseReject = null;
 }
 module.exports = SongBookController;
 
@@ -108,10 +116,15 @@ SongBookController.prototype._currentNote = function() {
  * Start playing the song.
  * This will start calling the highlight method on the instrument interface.
  * You can stop playing at any time by calling the `stop` method.
+ * @returns a promise that will be fulfilled when the song stops.
  */
 SongBookController.prototype.start = function() {
-  this._currentNoteIndex = 0;
-  this._instrumentInterface.highlight(this._currentNote());
+  return new Promise((resolve, reject) => {
+    this._currentNoteIndex = 0;
+    this._instrumentInterface.highlight(this._currentNote());
+    this._startPromiseResolve = resolve;
+    this._startPromiseReject = reject;
+  });
 }
 
 /**
@@ -141,4 +154,5 @@ SongBookController.prototype.stop = function() {
   this._instrumentInterface.unHighlight(currentNote);
 
   this._currentNoteIndex = null;
+  this._startPromiseResolve();
 }
