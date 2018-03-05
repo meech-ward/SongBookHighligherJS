@@ -15,7 +15,7 @@
   background-position: 0% 0%;
 }
 
-.white-keys .white-key.key-down, .black-keys .black-key.key-down {
+.white-keys .white-key.key-down, .black-keys .black-key.key-down, .white-keys .white-key.key-highlighted.key-down {
   background-position: 50% 0%;
 }
 

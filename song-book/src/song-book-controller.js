@@ -158,8 +158,10 @@ SongBookController.prototype.stop = function() {
   this._instrumentInterface.completed();
 
   let currentNote = this._currentNote();
-  this._instrumentInterface.unHighlight(currentNote);
-
+  if (currentNote != null) {
+    this._instrumentInterface.unHighlight(currentNote);
+  }
+  
   this._currentNoteIndex = null;
   this.playing = false;
   this._startPromiseResolve();
