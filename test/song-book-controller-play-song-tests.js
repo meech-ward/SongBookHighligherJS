@@ -47,6 +47,11 @@ describe("SongBookController", function() {
 
     context("#start", () => {
 
+      it("should be playing", () => {
+        songBookController.start();
+        expect(songBookController.playing).to.be.true;
+      });
+
       it("should call highlight on the instrumentInterface", () => {
         let calledHighlighted = false;
         instrumentInterface.highlightCallback = () => calledHighlighted = true;
@@ -141,6 +146,12 @@ describe("SongBookController", function() {
           songBookController.stop();
           expect(called).to.be.true;
         });
+
+        it("should stop playing", () => {
+          songBookController.start();
+          songBookController.stop();
+          expect(songBookController.playing).to.be.false;
+        })
 
         it ("should un highlight the current key", () => {
           let note = null;

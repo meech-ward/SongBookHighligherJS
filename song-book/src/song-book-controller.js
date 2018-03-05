@@ -64,6 +64,12 @@ function SongBookController(song, instrumentInterface) {
   }
 
   /**
+   * True when the song is playing, has started.
+   * False when the song is not playing or has been stopped.
+   */
+  this.playing = false
+
+  /**
    * The instrumentInterface object passed into the constructor.
    * @private
    * @type {InstrumentInterface}
@@ -122,6 +128,7 @@ SongBookController.prototype.start = function() {
   return new Promise((resolve, reject) => {
     this._currentNoteIndex = 0;
     this._instrumentInterface.highlight(this._currentNote());
+    this.playing = true;
     this._startPromiseResolve = resolve;
     this._startPromiseReject = reject;
   });
@@ -154,5 +161,6 @@ SongBookController.prototype.stop = function() {
   this._instrumentInterface.unHighlight(currentNote);
 
   this._currentNoteIndex = null;
+  this.playing = false;
   this._startPromiseResolve();
 }
