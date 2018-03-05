@@ -39,4 +39,38 @@ $(function() {
       console.log(error);
     }
   }
+
+  function Note(name, octave) {
+    if (this instanceof Note === false) {
+      return new Note(name, octave);
+    }
+    this.pitch = { name, octave };
+  }
+  var songs = {
+    'twinkle': {
+      notes: [
+      Note('c', 4), 
+      Note('c', 4),
+      Note('g', 4),
+      Note('g', 4),
+      Note('a', 4),
+      Note('a', 4),
+      Note('g', 4),
+      Note('f', 4),
+      Note('f', 4),
+      Note('e', 4),
+      Note('e', 4),
+      Note('d', 4),
+      Note('d', 4),
+      Note('c', 4)]
+    }
+  };
+
+  const song = songs['twinkle'];
+  const pianoInterface = PianoInstrumentInterface();
+  const songBookController = SongBookController(song, pianoInterface);
+  pianoInterface.highlightedKeyPlayed = () => {
+    songBookController.nextNote();
+  }
+  songBookController.start();
 });
