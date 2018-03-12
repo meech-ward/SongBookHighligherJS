@@ -3,15 +3,12 @@
 module.exports = ($, window) => {
 
     function InstrumentInterface() {
-      console.log("InstrumentInterface");
       if (this instanceof InstrumentInterface === false) {
         return new InstrumentInterface();
       }
-      console.log("InstrumentInterface");
       this.highlightedKeyPlayed = () => {};
       $('body').on('mousedown', '.key-highlighted', () => {
           this.highlightedKeyPlayed();
-          console.log("chicken");
       });
     }
 
